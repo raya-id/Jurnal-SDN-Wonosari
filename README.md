@@ -1,2 +1,2 @@
-# Jurnal-SDN-Wonosari
-Aplikasi Jurnal Harian
+# Absensi-Geo-Lock
+Aplikasi Absensi GeoLock (PWA)
