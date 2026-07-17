@@ -1,2 +1,2 @@
-# JURNAL HARIAN GURU
+# JURNAL GURU HARIAN
 Aplikasi jurnal harian guru (PWA)
