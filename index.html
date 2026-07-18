@@ -26,12 +26,12 @@
     .iframe-container { 
       width: 100%; height: 100dvh; overflow: hidden; position: relative; 
     }
-    /* PERBAIKAN Z-INDEX: Iframe diletakkan di lapis bawah (10) */
+   
     iframe { 
       display: block; width: 100%; height: 100%; border: none; 
       z-index: 10; position: relative; background: #f0f2f5;
     }
-    /* PERBAIKAN Z-INDEX: Loader diletakkan di lapis atas (20) + Transisi Fade-Out */
+    
     #loader { 
       position: absolute; top: 0; left: 0; width: 100%; height: 100%; 
       background: #f0f2f5; display: flex; flex-direction: column; 
@@ -51,7 +51,6 @@
       <div class="spinner"></div>
       <p style="color:#64748b; margin-top:16px; font-size:14px; font-weight:600;">Memuat Sistem Jurnal...</p>
     </div>
-    <!-- Penambahan geolocation untuk keperluan jurnal/absensi berbasis lokasi -->
     <iframe
       id="app"
       src="https://script.google.com/macros/s/AKfycbz6vYhKoL2L-w8VarELqD-ek28OD3CBBf-KeN6j6EFQNok2H05f1gZBIUN_4PoAZClJ4A/exec"
