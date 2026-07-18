@@ -5,23 +5,43 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no"/>
   <title>JURNAL HARIAN GURU</title>
   
+  <!-- iOS & Android PWA Meta Tags -->
   <meta name="apple-mobile-web-app-capable" content="yes" />
   <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
-  <meta name="apple-mobile-web-app-title" content="Jurnal Harian Guru" />
+  <meta name="apple-mobile-web-app-title" content="Jurnal Guru" />
   <meta name="mobile-web-app-capable" content="yes" />
   <meta name="theme-color" content="#0ea5e9" />
   
-  <!-- Panggil file relatif di GitHub -->
+  <!-- Panggil Aset Relatif -->
   <link rel="manifest" href="./manifest.json">
   <link rel="icon" href="./Jiraya.png" />
   <link rel="apple-touch-icon" href="./Jiraya.png" />
 
   <style>
-    html, body { margin: 0; padding: 0; width: 100%; height: 100%; background-color: #f0f2f5; overflow: hidden; font-family: system-ui, -apple-system, sans-serif; }
-    .iframe-container { width: 100%; height: 100dvh; overflow: hidden; position: relative; }
-    iframe { display: block; width: 100%; height: 100%; border: none; z-index: 10; position: relative; }
-    #loader { position: absolute; top: 0; left: 0; width: 100%; height: 100%; background: #f0f2f5; display: flex; flex-direction: column; align-items: center; justify-content: center; z-index: 5; }
-    .spinner { border: 4px solid rgba(14,165,233,.2); border-top: 4px solid #0ea5e9; border-radius: 50%; width: 40px; height: 40px; animation: spin 1s linear infinite; }
+    html, body { 
+      margin: 0; padding: 0; width: 100%; height: 100%; 
+      background-color: #f0f2f5; overflow: hidden; 
+      font-family: system-ui, -apple-system, sans-serif; 
+    }
+    .iframe-container { 
+      width: 100%; height: 100dvh; overflow: hidden; position: relative; 
+    }
+    /* PERBAIKAN Z-INDEX: Iframe diletakkan di lapis bawah (10) */
+    iframe { 
+      display: block; width: 100%; height: 100%; border: none; 
+      z-index: 10; position: relative; background: #f0f2f5;
+    }
+    /* PERBAIKAN Z-INDEX: Loader diletakkan di lapis atas (20) + Transisi Fade-Out */
+    #loader { 
+      position: absolute; top: 0; left: 0; width: 100%; height: 100%; 
+      background: #f0f2f5; display: flex; flex-direction: column; 
+      align-items: center; justify-content: center; 
+      z-index: 20; transition: opacity 0.4s ease, visibility 0.4s;
+    }
+    .spinner { 
+      border: 4px solid rgba(14,165,233,.2); border-top: 4px solid #0ea5e9; 
+      border-radius: 50%; width: 40px; height: 40px; animation: spin 1s linear infinite; 
+    }
     @keyframes spin { 0% { transform: rotate(0deg); } 100% { transform: rotate(360deg); } }
   </style>
 </head>
@@ -31,26 +51,32 @@
       <div class="spinner"></div>
       <p style="color:#64748b; margin-top:16px; font-size:14px; font-weight:600;">Memuat Sistem Jurnal...</p>
     </div>
+    <!-- Penambahan geolocation untuk keperluan jurnal/absensi berbasis lokasi -->
     <iframe
       id="app"
       src="https://script.google.com/macros/s/AKfycbz6vYhKoL2L-w8VarELqD-ek28OD3CBBf-KeN6j6EFQNok2H05f1gZBIUN_4PoAZClJ4A/exec"
-      scrolling="yes"
-      allow="camera; microphone; fullscreen; display-capture">
+      allow="camera; microphone; fullscreen; display-capture;">
     </iframe>
   </div>
 
   <script>
     const iframe = document.getElementById('app');
+    const loader = document.getElementById('loader');
+
+    // Menghilangkan loader dengan efek fade-out setelah iframe siap
     iframe.addEventListener('load', function() {
-      setTimeout(() => { document.getElementById('loader').style.display = 'none'; }, 500);
+      setTimeout(() => { 
+        loader.style.opacity = '0';
+        loader.style.visibility = 'hidden';
+      }, 400);
     });
 
-    // Registrasi Service Worker
+    // Registrasi Service Worker PWA
     if ('serviceWorker' in navigator) {
       window.addEventListener('load', () => {
-        navigator.serviceWorker.register('./sw.js').catch(error => {
-          console.error('ServiceWorker registration failed:', error);
-        });
+        navigator.serviceWorker.register('./sw.js')
+          .then(reg => console.log('SW Aktif - Scope:', reg.scope))
+          .catch(err => console.error('SW Gagal:', err));
       });
     }
   </script>
