@@ -1,49 +1,48 @@
-// sw.js - Hybrid App Shell untuk Jurnal Guru
-const CACHE_NAME = 'jurnal-guru-v1';
-const SHELL_ASSETS = [
+const CACHE_NAME = 'jurnal-Guru-pwa-cache-v2';
+const urlsToCache = [
   './',
   './index.html',
   './manifest.json',
-  './Jiraya.png'
+  './Jiraya-Free-Ox192.png',
+  './Jiraya-Free-Ox512.png'
 ];
 
+// Instalasi SW & Penyimpanan Cache Aset Statis (App Shell)
 self.addEventListener('install', (event) => {
   self.skipWaiting();
   event.waitUntil(
-    caches.open(CACHE_NAME).then((cache) => {
-      return cache.addAll(SHELL_ASSETS);
-    })
+    caches.open(CACHE_NAME)
+      .then((cache) => cache.addAll(urlsToCache))
   );
 });
 
-// Tahap 2: Aktifkan SW baru & bersihkan cache versi lama
+// Aktivasi & Pembersihan Cache Lama
 self.addEventListener('activate', (event) => {
   event.waitUntil(
-    self.clients.claim().then(() => {
-      return caches.keys().then((keys) => {
-        return Promise.all(
-          keys.map((key) => {
-            if (key !== CACHE_NAME) {
-              return caches.delete(key);
-            }
-          })
-        );
-      });
-    })
+    caches.keys().then((cacheNames) => {
+      return Promise.all(
+        cacheNames.map((cacheName) => {
+          if (cacheName !== CACHE_NAME) {
+            return caches.delete(cacheName);
+          }
+        })
+      );
+    }).then(() => self.clients.claim())
   );
 });
 
+// Interseptor Permintaan (Fetch Interceptor)
 self.addEventListener('fetch', (event) => {
-  const url = event.request.url;
-
-  if (url.includes('script.google.com') || url.includes('script.googleusercontent.com')) {
+  // PENGECUALIAN: Jangan cache iframe Google Script (Harus selalu live/jaringan)
+  if (event.request.url.includes('script.google.com')) {
     event.respondWith(fetch(event.request));
     return;
   }
-
+  
+  // Strategi Cache-First untuk aset PWA statis agar proses instalasi didukung
   event.respondWith(
-    caches.match(event.request).then((cachedResponse) => {
-      return cachedResponse || fetch(event.request);
+    caches.match(event.request).then((response) => {
+      return response || fetch(event.request);
     })
   );
 });
