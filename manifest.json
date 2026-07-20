@@ -1,22 +1,19 @@
 {
-  "id": "./",
   "name": "JURNAL HARIAN GURU SDN WONOSARI",
   "short_name": "JURNAL GURU",
-  "description": "Aplikasi Pencatatan Jurnal Kegiatan Belajar Mengajar Guru",
-  "start_url": "./index.html",
   "display": "standalone",
   "background_color": "#f0f2f5",
   "theme_color": "#0ea5e9",
   "orientation": "portrait",
+  "start_url": "./index.html",
   "icons": [
     {
-      "src": "./Jiraya.png",
+      "src": "./Jiraya-Free-Ox192.png",
       "sizes": "192x192",
-      "type": "image/png",
-      "purpose": "any maskable"
+      "type": "image/png"
     },
     {
-      "src": "./Jiraya.png",
+      "src": "./Jiraya-Free-Ox512.png",
       "sizes": "512x512",
       "type": "image/png",
       "purpose": "any maskable"
