@@ -29,18 +29,6 @@
     }
     
     /* TEKNIK IFRAME CLIPPING & GPU ACCELERATION */
-    iframe { 
-      display: block; width: 100%; 
-      /* Kompensasi tinggi iframe karena ditarik ke atas */
-      height: calc(100dvh + 45px); 
-      /* Menarik iframe ke atas untuk memotong banner peringatan Google */
-      margin-top: -45px; 
-      border: none; z-index: 10; position: absolute; top: 0; left: 0;
-      /* Memaksa Akselerasi GPU agar geser layar di HP tetap halus (60fps) */
-      transform: translateZ(0);
-      -webkit-transform: translateZ(0);
-      will-change: transform;
-    }
     
     #loader { 
       position: absolute; top: 0; left: 0; width: 100%; height: 100%; 
